@@ -59,19 +59,39 @@ fun NewsList() {
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxSize()
+        Column(
+            modifier = Modifier.fillMaxSize()
         ) {
-            Column(
+            Row(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
                     .weight(1f)
             ) {
-                for (i in 0 until 2) {
-                    val index = displayedIndices.getOrElse(i) { -1 }
-                    if (index != -1) {
-                        val newsItem = viewModel.newsItems[index]
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f)
+                ) {
+                    // Левая верхняя новость
+                    val indexTopLeft = displayedIndices.getOrElse(0) { -1 }
+                    if (indexTopLeft != -1) {
+                        val newsItem = viewModel.newsItems[indexTopLeft]
+                        val likes = likesMap.getOrPut(newsItem.id) { newsItem.likes }
+                        NewsItemView(newsItem) { id, updatedLikes ->
+                            likesMap[id] = updatedLikes
+                        }
+                    }
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f)
+                ) {
+                    // Правая верхняя новость
+                    val indexTopRight = displayedIndices.getOrElse(1) { -1 }
+                    if (indexTopRight != -1) {
+                        val newsItem = viewModel.newsItems[indexTopRight]
                         val likes = likesMap.getOrPut(newsItem.id) { newsItem.likes }
                         NewsItemView(newsItem) { id, updatedLikes ->
                             likesMap[id] = updatedLikes
@@ -79,15 +99,37 @@ fun NewsList() {
                     }
                 }
             }
-            Column(
+
+            Row(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
                     .weight(1f)
             ) {
-                for (i in 2 until 4) {
-                    val index = displayedIndices.getOrElse(i) { -1 }
-                    if (index != -1) {
-                        val newsItem = viewModel.newsItems[index]
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f)
+                ) {
+                    // Левая нижняя новость
+                    val indexBottomLeft = displayedIndices.getOrElse(2) { -1 }
+                    if (indexBottomLeft != -1) {
+                        val newsItem = viewModel.newsItems[indexBottomLeft]
+                        val likes = likesMap.getOrPut(newsItem.id) { newsItem.likes }
+                        NewsItemView(newsItem) { id, updatedLikes ->
+                            likesMap[id] = updatedLikes
+                        }
+                    }
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .weight(1f)
+                ) {
+                    // Правая нижняя новость
+                    val indexBottomRight = displayedIndices.getOrElse(3) { -1 }
+                    if (indexBottomRight != -1) {
+                        val newsItem = viewModel.newsItems[indexBottomRight]
                         val likes = likesMap.getOrPut(newsItem.id) { newsItem.likes }
                         NewsItemView(newsItem) { id, updatedLikes ->
                             likesMap[id] = updatedLikes

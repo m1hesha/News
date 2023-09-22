@@ -24,10 +24,22 @@ fun NewsItemView(newsItem: NewsItem, onLikeClick: (Int, Int) -> Unit) {
             style = TextStyle(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
-            )
+
+            ),
+            modifier = Modifier.weight(1f)
+        )
+
+        Text(
+            text = newsItem.context,
+            style = TextStyle(
+                fontSize = 15.sp,
+            ),
+            modifier = Modifier.weight(3f)
         )
 
         val likes = remember(newsItem.id) { mutableStateOf(newsItem.likes) }
+
+        Spacer(modifier = Modifier.weight(1f)) // Добавляем Spacer для разделения текста и кнопки
 
         Row(
             modifier = Modifier
